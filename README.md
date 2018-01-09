@@ -2,7 +2,7 @@
 
 Happy New Year 2018!!
 
-Just an attemp to implement this [Report Incident on Dribbble](https://dribbble.com/shots/3506590-An-incident-in-front-of-you) with react-native.
+Just an attemp to implement [Report Incident on Dribbble](https://dribbble.com/shots/3506590-An-incident-in-front-of-you) with react-native.
 
 ![mirn2](https://user-images.githubusercontent.com/21040043/34705175-11898d7c-f531-11e7-8a87-2767bd332754.gif)
 
