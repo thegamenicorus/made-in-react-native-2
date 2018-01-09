@@ -19,7 +19,31 @@ import DatehistoryPicker from "../../components/DateHistoryPicker";
 import TimePicker from "../../components/TimePicker";
 
 export default class WhenWasIt extends Component {
-  state = {};
+  state = {
+    datePickerAnimation: new Animated.Value(Metrics.screenWidth),
+    timePickerAnimation: new Animated.Value(Metrics.screenWidth)
+  };
+
+  componentDidMount() {
+    this.enterAnimation();
+  }
+
+  createTimingAnimation = (controlVar, duration) => {
+    return Animated.timing(controlVar, {
+      toValue: 0,
+      duration,
+      easing: Easing.out(Easing.cubic),
+      useNativeDriver: true
+    });
+  };
+
+  enterAnimation = () => {
+    const { datePickerAnimation, timePickerAnimation } = this.state;
+    Animated.stagger(100, [
+      this.createTimingAnimation(datePickerAnimation, 800),
+      this.createTimingAnimation(timePickerAnimation, 800)
+    ]).start();
+  };
 
   goBack = () => {
     const { goBack } = this.context;
@@ -37,27 +61,47 @@ export default class WhenWasIt extends Component {
 
   render() {
     const { goBack, goNext } = this.context;
-    const { contentAnimation, options } = this.state;
+    const { datePickerAnimation, timePickerAnimation } = this.state;
+    const timePickerOpacityInterpolate = timePickerAnimation.interpolate({
+      inputRange: [0, Metrics.screenWidth / 3],
+      outputRange: [1, 0],
+      extrapolate: "clamp"
+    });
     return (
       <View style={styles.container}>
         <Header>
           <Text style={styles.textHeader}>When was it?</Text>
         </Header>
         <Content style={[styles.content]}>
-          <View style={styles.datePicker}>
+          <Animated.View
+            style={[
+              styles.datePicker,
+              { transform: [{ translateX: datePickerAnimation }] }
+            ]}
+          >
             <DatehistoryPicker historyDay={7} highlightColor={Colors.app} />
-          </View>
-          <View style={styles.timeTopic}>
+          </Animated.View>
+          <Animated.View
+            style={[
+              styles.timeTopic,
+              { transform: [{ translateX: timePickerAnimation }] }
+            ]}
+          >
             <Text style={styles.text}>Select approximate time</Text>
-          </View>
-          <View style={styles.timePicker}>
+          </Animated.View>
+          <Animated.View
+            style={[
+              styles.timePicker,
+              { opacity: timePickerOpacityInterpolate }
+            ]}
+          >
             <TimePicker
               highlightColor={Colors.app}
               markerColor={Colors.primary}
               hourColor={Colors.app}
               minuteColor={Colors.secondary}
             />
-          </View>
+          </Animated.View>
         </Content>
         <Footer style={styles.rowSpaceBetween}>
           <FooterControlButtons
