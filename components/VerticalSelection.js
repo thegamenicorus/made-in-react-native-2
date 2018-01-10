@@ -5,14 +5,15 @@ import {
   Text,
   Animated,
   TouchableWithoutFeedback,
-  Easing
+  Easing,
+  Platform
 } from "react-native";
 
 import { Fonts, Colors } from "../themes";
 
 const HEIGHT = 50;
 const WIDTH = 110;
-const BORDER_WIDTH = 16;
+const BORDER_RADIUS = 16;
 const HIGHLIGHT_COLOR = "#57a8ef";
 const ANIMATED_TIMING_DURATION = 100;
 
@@ -50,13 +51,13 @@ export default class VerticalSelection extends Component {
 
     const topRadiusinterpolate = highlightTranslateYAnimation.interpolate({
       inputRange: [0, HEIGHT],
-      outputRange: [BORDER_WIDTH, 0],
+      outputRange: [BORDER_RADIUS, 0],
       extrapolate: "clamp"
     });
 
     const bottomRadiusinterpolate = highlightTranslateYAnimation.interpolate({
       inputRange: [(lastIndex - 1) * HEIGHT, lastIndex * HEIGHT],
-      outputRange: [0, BORDER_WIDTH],
+      outputRange: [0, BORDER_RADIUS],
       extrapolate: "clamp"
     });
 
@@ -97,13 +98,18 @@ export default class VerticalSelection extends Component {
             onPress={() => this.select(index)}
           >
             <View
-              style={
+              style={[
                 index === 0
                   ? styles.firstMenu
                   : index === data.length - 1
                     ? styles.lastMenu
-                    : styles.generalMenu
-              }
+                    : styles.generalMenu,
+                Platform.OS === "android" && index % 2 === 1
+                  ? {
+                      borderBottomWidth: 1
+                    }
+                  : null
+              ]}
             >
               <Text
                 style={[
@@ -128,8 +134,8 @@ const styles = StyleSheet.create({
     width: WIDTH,
     height: HEIGHT,
     padding: 10,
-    borderTopLeftRadius: BORDER_WIDTH,
-    borderTopRightRadius: BORDER_WIDTH,
+    borderTopLeftRadius: BORDER_RADIUS,
+    borderTopRightRadius: BORDER_RADIUS,
     borderColor: Colors.border,
     alignItems: "center",
     justifyContent: "center"
@@ -140,8 +146,8 @@ const styles = StyleSheet.create({
     width: WIDTH,
     height: HEIGHT,
     padding: 10,
-    borderBottomLeftRadius: BORDER_WIDTH,
-    borderBottomRightRadius: BORDER_WIDTH,
+    borderBottomLeftRadius: BORDER_RADIUS,
+    borderBottomRightRadius: BORDER_RADIUS,
     borderColor: Colors.border,
     alignItems: "center",
     justifyContent: "center"
