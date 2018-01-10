@@ -215,7 +215,7 @@ export default class TimePicker extends Component {
         </View>
 
         <View style={styles.clockContainer}>
-          <View ref="clock">
+          <View ref="clock" collapsable={false}>
             <ImageBackground source={ClockPNG} style={styles.clock}>
               <Hand
                 color={minuteColor}

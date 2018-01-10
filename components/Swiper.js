@@ -5,7 +5,8 @@ import {
   Text,
   Animated,
   PanResponder,
-  Dimensions
+  Dimensions,
+  Platform
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -111,7 +112,9 @@ export default class Swiper extends Component {
       opacity: markerOpacityInterpolate,
       transform: positionAnimation.getTranslateTransform()
     };
-    animatedStyle.transform.push({ scale: markerScaleInterpolate });
+    if (Platform.OS === "ios") {
+      animatedStyle.transform.push({ scale: markerScaleInterpolate });
+    }
     const textOpacityAnimatedStyle = {
       opacity: accepted ? 0 : opacityInterpolate
     };
