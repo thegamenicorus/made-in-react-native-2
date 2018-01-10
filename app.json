@@ -1,5 +1,7 @@
 {
   "expo": {
+    "name": "MIRN2 Report Incident",
+    "slug": "made-in-react-native-2",
     "sdkVersion": "23.0.0"
   }
 }
