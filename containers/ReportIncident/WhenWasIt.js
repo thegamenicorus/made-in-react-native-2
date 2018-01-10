@@ -20,6 +20,7 @@ import TimePicker from "../../components/TimePicker";
 
 export default class WhenWasIt extends Component {
   state = {
+    clockDraging: false,
     datePickerAnimation: new Animated.Value(Metrics.screenWidth),
     timePickerAnimation: new Animated.Value(Metrics.screenWidth)
   };
@@ -59,9 +60,21 @@ export default class WhenWasIt extends Component {
     navigation.navigate("WhereItHappened");
   };
 
+  onClockDrag = () => {
+    this.setState({ clockDraging: true });
+  };
+
+  onEndClockDrag = () => {
+    this.setState({ clockDraging: false });
+  };
+
   render() {
     const { goBack, goNext } = this.context;
-    const { datePickerAnimation, timePickerAnimation } = this.state;
+    const {
+      datePickerAnimation,
+      timePickerAnimation,
+      clockDraging
+    } = this.state;
     const timePickerOpacityInterpolate = timePickerAnimation.interpolate({
       inputRange: [0, Metrics.screenWidth / 3],
       outputRange: [1, 0],
@@ -73,35 +86,39 @@ export default class WhenWasIt extends Component {
           <Text style={styles.textHeader}>When was it?</Text>
         </Header>
         <Content style={[styles.content]}>
-          <Animated.View
-            style={[
-              styles.datePicker,
-              { transform: [{ translateX: datePickerAnimation }] }
-            ]}
-          >
-            <DatehistoryPicker historyDay={7} highlightColor={Colors.app} />
-          </Animated.View>
-          <Animated.View
-            style={[
-              styles.timeTopic,
-              { transform: [{ translateX: timePickerAnimation }] }
-            ]}
-          >
-            <Text style={styles.text}>Select approximate time</Text>
-          </Animated.View>
-          <Animated.View
-            style={[
-              styles.timePicker,
-              { opacity: timePickerOpacityInterpolate }
-            ]}
-          >
-            <TimePicker
-              highlightColor={Colors.app}
-              markerColor={Colors.primary}
-              hourColor={Colors.app}
-              minuteColor={Colors.secondary}
-            />
-          </Animated.View>
+          <ScrollView style={styles.scrollView} scrollEnabled={!clockDraging}>
+            <Animated.View
+              style={[
+                styles.datePicker,
+                { transform: [{ translateX: datePickerAnimation }] }
+              ]}
+            >
+              <DatehistoryPicker historyDay={7} highlightColor={Colors.app} />
+            </Animated.View>
+            <Animated.View
+              style={[
+                styles.timeTopic,
+                { transform: [{ translateX: timePickerAnimation }] }
+              ]}
+            >
+              <Text style={styles.text}>Select approximate time</Text>
+            </Animated.View>
+            <Animated.View
+              style={[
+                styles.timePicker,
+                { opacity: timePickerOpacityInterpolate }
+              ]}
+            >
+              <TimePicker
+                highlightColor={Colors.app}
+                markerColor={Colors.primary}
+                hourColor={Colors.app}
+                minuteColor={Colors.secondary}
+                onDrag={this.onClockDrag}
+                onEndDrag={this.onEndClockDrag}
+              />
+            </Animated.View>
+          </ScrollView>
         </Content>
         <Footer style={styles.rowSpaceBetween}>
           <FooterControlButtons
@@ -130,6 +147,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between"
   },
+  scrollView: { flex: 1, width: "100%" },
   datePicker: { height: 95 },
   timeTopic: {
     width: "100%",

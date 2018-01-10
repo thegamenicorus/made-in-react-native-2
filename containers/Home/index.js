@@ -5,7 +5,9 @@ import {
   Text,
   TouchableOpacity,
   Animated,
-  Easing
+  Easing,
+  Platform,
+  StatusBar
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { NavigationActions } from "react-navigation";
@@ -128,7 +130,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    padding: 20
+    padding: 20,
+    paddingTop: Platform.select({
+      ios: 20,
+      android: StatusBar.currentHeight + 20
+    })
   },
   header: {
     flexDirection: "row",

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, Platform, StatusBar, View } from "react-native";
 import { NavigationActions } from "react-navigation";
 import PropTypes from "prop-types";
 
@@ -55,7 +55,7 @@ export default class ReportIncident extends Component {
   render() {
     const { index } = this.state;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.container}>
         <Breadcrumb depth={MAX_STEP} currentIndex={index} />
         <Router />
       </View>
@@ -67,3 +67,13 @@ ReportIncident.childContextTypes = {
   goBack: PropTypes.func,
   goNext: PropTypes.func
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: Platform.select({
+      ios: 0,
+      android: StatusBar.currentHeight
+    })
+  }
+});

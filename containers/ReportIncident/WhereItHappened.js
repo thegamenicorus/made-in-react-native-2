@@ -88,23 +88,25 @@ export default class WhereItHappened extends Component {
           <Text style={styles.textHeader}>Where it happened?</Text>
         </Header>
         <Content style={[styles.content]}>
-          <AnimatedGoogleStaticMap
-            style={[
-              styles.map,
-              { transform: [{ translateX: googleStaticMapAnimation }] }
-            ]}
-            {...MOCK_LOCATION_PROPS}
-          />
-          <TouchableWithoutFeedback onPress={this.otherLocation}>
-            <Animated.View
+          <ScrollView>
+            <AnimatedGoogleStaticMap
               style={[
-                styles.buttonContainer,
-                { transform: [{ translateX: otherLocationButtonAnimation }] }
+                styles.map,
+                { transform: [{ translateX: googleStaticMapAnimation }] }
               ]}
-            >
-              <Text style={styles.text}>Other Location</Text>
-            </Animated.View>
-          </TouchableWithoutFeedback>
+              {...MOCK_LOCATION_PROPS}
+            />
+            <TouchableWithoutFeedback onPress={this.otherLocation}>
+              <Animated.View
+                style={[
+                  styles.buttonContainer,
+                  { transform: [{ translateX: otherLocationButtonAnimation }] }
+                ]}
+              >
+                <Text style={styles.text}>Other Location</Text>
+              </Animated.View>
+            </TouchableWithoutFeedback>
+          </ScrollView>
         </Content>
         <Footer style={styles.rowSpaceBetween}>
           <FooterControlButtons

@@ -5,7 +5,8 @@ import {
   Text,
   TouchableWithoutFeedback,
   Animated,
-  Easing
+  Easing,
+  ScrollView
 } from "react-native";
 import { NavigationActions } from "react-navigation";
 import PropTypes from "prop-types";
@@ -58,11 +59,13 @@ export default class Serverity extends Component {
             { transform: [{ translateX: contentAnimation }] }
           ]}
         >
-          <VerticalSelection
-            selectedIndex={2}
-            data={options}
-            highlightColors={["#f5437b", "#FBBD71", "#7658d4", "#57a8ef"]}
-          />
+          <ScrollView style={styles.scrollView}>
+            <VerticalSelection
+              selectedIndex={2}
+              data={options}
+              highlightColors={["#f5437b", "#FBBD71", "#7658d4", "#57a8ef"]}
+            />
+          </ScrollView>
         </AnimatedContent>
         <Footer style={styles.rowSpaceBetween}>
           <FooterControlButtons
@@ -91,7 +94,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between"
   },
-  content: { alignItems: "center", paddingTop: 60 },
+  content: { alignItems: "center" },
+  scrollView: { paddingTop: 60 },
   textHeader: {
     ...Fonts.style.topic,
     fontWeight: "600"

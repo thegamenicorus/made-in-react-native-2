@@ -143,7 +143,7 @@ export default class TimePicker extends Component {
     }
     animation.setValue(degree);
     const clockNumber = Math.floor(degree / CLOCK_NUMBER_ANGLE);
-    this.setState({ [stateName]: clockNumber });
+    this.setState({ [stateName]: clockNumber }, this.onDrag);
   };
 
   onPanResponderRelease = (e, gestureState, animation, stateName) => {
@@ -152,6 +152,7 @@ export default class TimePicker extends Component {
       toValue: clockNumber * CLOCK_NUMBER_ANGLE,
       friction: 5
     }).start();
+    this.onEndDrag();
   };
 
   padDigits(number, digits) {
@@ -175,6 +176,20 @@ export default class TimePicker extends Component {
           }
         : null
     ];
+  };
+
+  onDrag = () => {
+    const { onDrag } = this.props;
+    if (onDrag) {
+      onDrag();
+    }
+  };
+
+  onEndDrag = () => {
+    const { onEndDrag } = this.props;
+    if (onEndDrag) {
+      onEndDrag();
+    }
   };
 
   render() {
@@ -249,7 +264,9 @@ export default class TimePicker extends Component {
 
 TimePicker.propTypes = {
   hourColor: PropTypes.string.isRequired,
-  minuteColor: PropTypes.string.isRequired
+  minuteColor: PropTypes.string.isRequired,
+  onDrag: PropTypes.func,
+  onEndDrag: PropTypes.func
 };
 
 TimePicker.defaultProps = {
