@@ -115,7 +115,10 @@ export default class TimePicker extends Component {
     const { hourHandAnimation, minuteHandAnimation } = this.state;
 
     this.minuteHandResponder = PanResponder.create({
-      onStartShouldSetPanResponder: (e, gestureState) => true,
+      onStartShouldSetPanResponder: (e, gestureState) => {
+        this.onDrag();
+        return true;
+      },
       onMoveShouldSetPanResponder: (e, gestureState) => true,
       onPanResponderMove: (e, gestureState) =>
         this.onPanResponderMove(e, gestureState, minuteHandAnimation, "min"),
@@ -124,7 +127,10 @@ export default class TimePicker extends Component {
     });
 
     this.hourHandResponder = PanResponder.create({
-      onStartShouldSetPanResponder: (e, gestureState) => true,
+      onStartShouldSetPanResponder: (e, gestureState) => {
+        this.onDrag();
+        return true;
+      },
       onMoveShouldSetPanResponder: (e, gestureState) => true,
       onPanResponderMove: (e, gestureState) =>
         this.onPanResponderMove(e, gestureState, hourHandAnimation, "hour"),
@@ -143,7 +149,7 @@ export default class TimePicker extends Component {
     }
     animation.setValue(degree);
     const clockNumber = Math.floor(degree / CLOCK_NUMBER_ANGLE);
-    this.setState({ [stateName]: clockNumber }, this.onDrag);
+    this.setState({ [stateName]: clockNumber });
   };
 
   onPanResponderRelease = (e, gestureState, animation, stateName) => {
